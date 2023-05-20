@@ -1,0 +1,8 @@
+---
+# defaults file for my_new_role
+
+# Configuración de firewall
+firewall_rules:
+  - { port: 22, protocol: tcp }
+  - { port: 80, protocol: tcp }
+  - { port: 443, protocol: tcp }

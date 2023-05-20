@@ -1,0 +1,12 @@
+---
+# handlers file for my_new_role
+
+- name: Reload firewall service
+  ansible.builtin.service:
+    name: firewalld
+    state: reloaded
+
+- name: Restart SSH service
+  ansible.builtin.service:
+    name: sshd
+    state: restarted

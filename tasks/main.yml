@@ -1,0 +1,37 @@
+---
+# tasks file for hardening_linux
+
+- name: Update yum cache and install firewalld and openssh-server
+  ansible.builtin.yum:
+    name: [openssh-server, firewalld]
+    state: latest
+    update_cache: yes
+
+# - name: Enable firewalld
+#   ansible.builtin.service:
+#     name: firewalld
+#     state: started
+#     enabled: true
+
+# - name: Enable openssh-server
+#   ansible.builtin.service:
+#     name: sshd
+#     state: started
+#     enabled: true
+
+- name: Configure firewall rules
+  ansible.posix.firewalld:
+    zone: public
+    port: "{{ item.port }}/{{ item.protocol }}"
+    state: enabled
+    permanent: true
+  with_items: "{{ firewall_rules }}"
+#   notify: Reload firewall service
+
+- name: Disable password authentication over SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+    state: present
+#   notify: Restart SSH service
