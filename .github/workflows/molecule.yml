@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install yamllint ansible-lint ansible molecule molecule[docker] "molecule-plugins[podman]
+          python3 -m pip install yamllint ansible-lint ansible molecule molecule[docker] "molecule-plugins[podman]"
           
       - name: Install Galaxy dependencies.
         run: ansible-galaxy collection install community.docker
