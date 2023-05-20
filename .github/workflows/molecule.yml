@@ -10,7 +10,7 @@ jobs:
         python-version: ["3.9", "3.10"]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3.5.2
         with:
           path: my_new_role
       - name: Set up Python ${{ matrix.python-version }}
@@ -22,5 +22,5 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install ansible molecule molecule[docker]
       - name: Test with molecule
-        run: |
-          molecule test
+        run: molecule test
+        working-directory: molecule/default
