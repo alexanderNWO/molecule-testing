@@ -10,15 +10,25 @@ on:
       - master
 
 jobs:
-  molecule:
+
+  test:
+    name: Molecule
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: "${{ github.repository }}"
       
-      - name: Molecule
-        uses: gofrolist/molecule-action@v2.3.16
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
         with:
-          molecule_command: test
+          python-version: '3.x'
+
+      - name: Install dependencies.
+        run: pip3 install yamllint ansible-lint ansible molecule[docker]
+
+      - name: Run molecule
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
