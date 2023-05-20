@@ -20,11 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install molecule ansible-core
-          python3 -m pip install --upgrade --user setuptools
-          python3 -m pip install --user molecule
-          python3 -m pip install --user molecule ansible-lint
-          python3 -m pip install --user "molecule-plugins[docker]"
+          python3 -m pip install -r requirements.txt
       - name: Test with molecule
         run: |
           molecule test
