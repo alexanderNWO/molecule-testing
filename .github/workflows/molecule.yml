@@ -1,34 +1,30 @@
 ---
-name: Molecule
-
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
+name: Molecule Test
+on: [push, pull_request]
 jobs:
-
-  test:
-    name: Molecule
+  build:
     runs-on: ubuntu-latest
-    
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ["3.9", "3.10"]
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Set up Python 3
+      - uses: actions/checkout@v2
+        with:
+          path: my_new_role
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
-
-      - name: Install dependencies.
-        run: pip3 install yamllint ansible-lint ansible molecule[docker]
-
-      - name: Run molecule
-        run: molecule test
-        env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install molecule ansible-core
+          python3 -m pip install --upgrade --user setuptools
+          python3 -m pip install --user molecule
+          python3 -m pip install --user molecule ansible-lint
+          python3 -m pip install --user "molecule-plugins[docker]"
+      - name: Test with molecule
+        run: |
+          molecule test
