@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3.5.2
+        with:
+          path: molecule-testing
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4.6.0
         with:
@@ -21,4 +23,3 @@ jobs:
           python3 -m pip install ansible molecule molecule[docker]
       - name: Test with molecule
         run: molecule test
-        working-directory: /home/runner/work/molecule-testing/molecule/default
