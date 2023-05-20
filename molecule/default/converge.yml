@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include acme.my_new_role"
+    - name: "Include armenta.my_new_role"
       include_role:
-        name: "acme.my_new_role"
+        name: "armenta.my_new_role"
